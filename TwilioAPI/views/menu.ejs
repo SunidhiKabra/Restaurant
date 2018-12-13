@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/scripts.ejs %>
+    <script>
+    $(document).ready(function() {
+    $.ajax({
+      method: "GET",
+      dataType: "json",
+        url: "/display_order",
+        success:
+        	function(data) {
+            var table = $('#example').DataTable( {
+              "scrollY" :        "300px",
+              "scrollX" :        "true",
+              "scrollCollapse" : "true",
+              "paging" :         "false",
+              "bAutoWidth" : false,
+              "aaData" : data,
+              dom: 'Bfrtip',
+                "columnDefs": [ {
+                    "targets": null,
+                    "className": "dt-center",
+                    "data": data,
+                    "defaultContent": "-"
+                } ],
+                "columns" : [  {
+        	             data : "_id",
+                       "defaultContent": "-"
+                     }, {
+        	             data : "Starters",
+                       "defaultContent": "-"
+                     }, {
+        	             data : "Drinks",
+                       "defaultContent": "-"
+                     }, {
+        	             data : "Desserts",
+                       "defaultContent": "-"
+                     }, {
+        	             data : "MainCourse",
+                       "defaultContent": "-"
+                     }, {
+        	             data : "GroupNumber",
+                       "defaultContent": "-"
+                     }]
+            } );
+            table.$('tr').click(function () {
+            var data = table.rows(this).data();
+            myFunction(data);
+          });
+        	},
+        error:
+        	function(data) {
+            	alert("Getting all data failed. Please try again");
+        		}
+} );
+
+function myFunction(data) {
+    // document.getElementById("_id").value = checkIfUndefined(data[0]._id);
+    document.getElementById("Starters").value = checkIfUndefined(data[0].Starters);
+    document.getElementById("Drinks").value = checkIfUndefined(data[0].Drinks);
+    document.getElementById("Desserts").value = checkIfUndefined(data[0].Desserts);
+    document.getElementById("MainCourse").value = checkIfUndefined(data[0].MainCourse);
+    document.getElementById("GroupNumber").value = checkIfUndefined(data[0].GroupNumber);
+
+    document.getElementById("myDynamicTable").style.display = "block";
+}
+
+function checkIfUndefined(str){
+  if (typeof str === "undefined"){
+    return 0;
+  }
+  else{
+    return str;
+  }
+}
+
+$("#editDetailsForm").on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: $(this).prop('method'),
+        url : $(this).prop('action'),
+        data: $(this).serialize()
+    }).done(function() {
+        window.location.href = "/menu";
+    });
+});
+} );
+
+
+</script>
+  <title>Menu Items</title>
+  </head>
+  <body>
+    <% include partials/header.ejs %>
+     <div class="container">
+       <table id="example" class="display"  style="width:100%; white-space: nowrap;">
+           <thead>
+               <tr>
+                   <th>_id</th>
+                   <th>Starters</th>
+                   <th>Drinks</th>
+                   <th>Desserts</th>
+                   <th>Main Course</th>
+                   <th>Group Number</th>
+               </tr>
+           </thead>
+       </table>
+       <div id="myDynamicTable" style= "display: none;" >
+         <h2 class="centerAlign1 textBold">Edit Details</h2>
+         <form class="form-horizontal" id="editDetailsForm" action="/edit_order" method="POST">
+           <div class="form-group">
+             <label class="control-label col-sm-2" for="Starters">Starters:</label>
+             <div class="col-sm-10">
+               <input type="text" class="form-control" id="Starters" name="Starters">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="control-label col-sm-2" for="Drinks">Drinks:</label>
+             <div class="col-sm-10">
+               <input type="text" class="form-control" id="Drinks" name="Drinks">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="control-label col-sm-2" for="Desserts">Desserts:</label>
+             <div class="col-sm-10">
+               <input type="text" class="form-control" id="Desserts" name="Desserts">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="control-label col-sm-2" for="MainCourse">Main Course:</label>
+             <div class="col-sm-10">
+               <input type="text" class="form-control" id="MainCourse" name="MainCourse">
+             </div>
+           </div>
+           <div class="form-group">
+             <label class="control-label col-sm-2" for="GroupNumber">Group Number:</label>
+             <div class="col-sm-10">
+               <input type="text" class="form-control" id="GroupNumber" name="GroupNumber" readonly>
+             </div>
+           </div>
+           <div class="form-group">
+             <div class="col-sm-offset-2 col-sm-10">
+               <button id="submitButton"  type="submit" class="btn btn-default btn-success" value="Submit request" onclick="functionForSubmit(this.form, this._id, this.Starters, this.Drinks, this.Desserts, this.MainCourse, this.GroupNumber);" >Submit</button>
+             </div>
+           </div>
+         </form>
+       </div>
+    </div>
+  </body>
+</html>

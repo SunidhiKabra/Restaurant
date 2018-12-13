@@ -1,0 +1,83 @@
+.navbar{
+padding-left: 20px;
+}
+
+.jumbotron{
+	color: white;
+	height: 150px;
+	position:relative;
+}
+
+.posi{
+	position:absolute; top:5px; right:5px;
+}
+
+.backgroundImage{
+	background: #ffffff url("../../resources/images/background.jpg") no-repeat right top;
+	width: 100%;
+	background-size: cover;
+}
+
+.margin20{
+	 margin:20px;
+ }
+
+.btn, .btn-default, .btn-success{
+	 background-color: #2b1d0e !important;
+ }
+
+.centerAlign{
+	 	color: white;
+}
+
+.centerAlign1{
+	 	text-align: center;
+}
+
+.textBold{
+	font-weight: bold;
+}
+
+.container1 {
+    position: relative;
+    text-align: center;
+		font-weight: bold;
+}
+
+.container{
+	margin: 0 auto;
+	width: 80%;
+}
+
+.centered {
+		color:black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+		font-weight: bold;
+}
+
+a img{
+	opacity: 0.7;
+	width: 400px;
+  height: 300px;
+	filter: blur(2px);
+  -webkit-filter: blur(2px);
+
+}
+
+a h2:hover{
+	font-size: 400%;
+	color:black;
+}
+
+.solidBorder{
+	border-style: solid;
+}
+
+.logoutButton{
+	position:fixed;
+	right:10px;
+	top:5px;
+}

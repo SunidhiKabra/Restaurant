@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include partials/scripts.ejs %>
+
+  <script>
+$(document).ready(function() {
+$.ajax({
+  method: "GET",
+  dataType: "json",
+    url: "/display_booking",
+    success:
+      function(data) {
+        var table = $('#example').DataTable( {
+          "scrollY" :        "300px",
+          "scrollX" :        "true",
+          "scrollCollapse" : "true",
+          "paging" :         "false",
+          "bAutoWidth" : false,
+          "aaData" : data,
+          dom: 'Bfrtip',
+            "columnDefs": [ {
+                "targets": null,
+                "className": "dt-center",
+                "data": data,
+                "defaultContent": "-"
+            } ],
+            "columns" : [  {
+                   data : "Alerted",
+                   "defaultContent": "-"
+                 }, {
+                   data : "SpecialRequests",
+                   "defaultContent": "-"
+                 }, {
+                   data : "DisabilityAccomodation",
+                   "defaultContent": "-"
+                 }, {
+                   data : "Name",
+                   "defaultContent": "-"
+                 }, {
+                   data : "MenuPreOrdered",
+                   "defaultContent": "-"
+                 }, {
+                   data : "Friends",
+                   "defaultContent": "-"
+                 }, {
+                   data : "_id",
+                   "defaultContent": "-"
+                 }, {
+                   data : "ReservationMadeAt",
+                   "defaultContent": "-"
+                 }, {
+                   data : "customerNo",
+                   "defaultContent": "-"
+                 }, {
+                   data : "__v",
+                   "defaultContent": "-"
+                 }, {
+                   data : "Adults",
+                   "defaultContent": "-"
+                 }, {
+                   "data" : "Kids",
+                   "defaultContent": "-"
+                 }, {
+                   data : "Timeslotreq",
+                   "defaultContent": "-"
+                 } ]
+        } );
+        table.$('tr').click(function () {
+        var data = table.rows(this).data();
+        myFunction(data);
+      });
+      },
+    error:
+      function(data) {
+          alert("Getting all data failed. Please try again");
+        }
+} );
+
+function myFunction(data) {
+document.getElementById("Alerted").value = checkIfUndefined(data[0].Alerted);
+document.getElementById("SpecialRequests").value = checkIfUndefined(data[0].SpecialRequests);
+document.getElementById("DisabilityAccomodation").value = checkIfUndefined(data[0].DisabilityAccomodation);
+document.getElementById("Name").value = checkIfUndefined(data[0].Name);
+document.getElementById("MenuPreOrdered").value = checkIfUndefined(data[0].MenuPreOrdered);
+document.getElementById("Friends").value = checkIfUndefined(data[0].Friends);
+document.getElementById("ReservationMadeAt").value = checkIfUndefined(data[0].ReservationMadeAt);
+document.getElementById("customerNo").value = checkIfUndefined(data[0].customerNo);
+document.getElementById("Adults").value = checkIfUndefined(data[0].Adults);
+document.getElementById("Kids").value = checkIfUndefined(data[0].Kids);
+document.getElementById("Timeslotreq").value = checkIfUndefined(data[0].Timeslotreq);
+
+document.getElementById("myDynamicTable").style.display = "block";
+}
+
+function checkIfUndefined(str){
+  if (typeof str === "undefined"){
+    return 0;
+  }
+  else{
+    return str;
+  }
+}
+
+$("#editDetailsForm").on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: $(this).prop('method'),
+        url : $(this).prop('action'),
+        data: $(this).serialize()
+    }).done(function() {
+        window.location.href = "/bookings";
+    });
+});
+} );
+</script>
+<title>Bookings</title>
+</head>
+<body>
+<% include partials/header.ejs %>
+ <div class="container">
+   <table id="example" class="display"  style="width:100%; white-space: nowrap;">
+       <thead>
+           <tr>
+               <th>Alerted</th>
+               <th>Special Requests</th>
+               <th>Disability Accomodation</th>
+               <th>Name</th>
+               <th>Menu Pre-Ordered</th>
+               <th>Friends</th>
+               <th>_id</th>
+               <th>Reservation Made At</th>
+               <th>customer No</th>
+               <th>__v</th>
+               <th>Adults</th>
+               <th>Kids</th>
+               <th>Time slot req</th>
+           </tr>
+       </thead>
+   </table>
+   <div id="myDynamicTable" style= "display: none;" >
+     <h2 class="centerAlign1 textBold">Edit Details</h2>
+     <form class="form-horizontal" id="editDetailsForm" action="/edit_booking" method="POST">
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="Alerted">Alerted:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="Alerted" name="Alerted">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="SpecialRequests">Special Requests:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="SpecialRequests" name="SpecialRequests">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="DisabilityAccomodation">Disability Accomodation:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="DisabilityAccomodation" name="DisabilityAccomodation">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="Name">Name:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="Name" name="Name">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="MenuPreOrdered">Menu Pre Ordered:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="MenuPreOrdered" name="MenuPreOrdered">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="Friends">Friends:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="Friends" name="Friends">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="ReservationMadeAt">Reservation Made At:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="ReservationMadeAt" name="ReservationMadeAt">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="customerNo">customer No:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="customerNo" name="customerNo" readonly>
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="Adults">Adults:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="Adults" name="Adults">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="Kids">Kids:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="Kids" name="Kids">
+         </div>
+       </div>
+       <div class="form-group">
+         <label class="control-label col-sm-2" for="Timeslotreq">Time slot req:</label>
+         <div class="col-sm-10">
+           <input type="text" class="form-control" id="Timeslotreq" name="Timeslotreq">
+         </div>
+       </div>
+       <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10">
+           <button id="submitButton"  type="submit" class="btn btn-default btn-success" value="Submit request" onclick="functionForSubmit(this.form, this.Alerted, this.SpecialRequests, this.DisabilityAccomodation, this.Name, this.MenuPreOrdered, this.Friends, this.ReservationMadeAt, this.customerNo, this.Adults, this.Kids, this.Timeslotreq);" >Submit</button>
+         </div>
+       </div>
+     </form>
+   </div>
+</div>
+</body>
+</html>
