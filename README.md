@@ -1,4 +1,4 @@
-# Restaurant
+# Restaurant Reservation
 ## <center>WIKI (Planning) <center>
 
 ### Description of the product and functionalities:
